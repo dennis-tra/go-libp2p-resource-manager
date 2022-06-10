@@ -5,7 +5,9 @@ go 1.17
 require (
 	github.com/ipfs/go-log/v2 v2.5.0
 	github.com/libp2p/go-libp2p-core v0.14.0
+	github.com/pbnjay/memory v0.0.0-20210728143218-7b4eea64cf58
 	github.com/stretchr/testify v1.7.0
+	golang.org/x/sys v0.0.0-20210630005230-0f9fa26af87c
 )
 
 require (
@@ -32,6 +34,5 @@ require (
 	go.uber.org/multierr v1.6.0 // indirect
 	go.uber.org/zap v1.19.1 // indirect
 	golang.org/x/crypto v0.0.0-20191011191535-87dc89f01550 // indirect
-	golang.org/x/sys v0.0.0-20210630005230-0f9fa26af87c // indirect
 	gopkg.in/yaml.v3 v3.0.0-20210107192922-496545a6307b // indirect
 )
