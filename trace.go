@@ -6,7 +6,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
-	"os"
 	"strings"
 	"sync"
 	"time"
@@ -15,7 +14,7 @@ import (
 )
 
 type trace struct {
-	path string
+	out io.WriteCloser
 
 	ctx    context.Context
 	cancel func()
@@ -26,9 +25,9 @@ type trace struct {
 	pend []interface{}
 }
 
-func WithTrace(path string) Option {
+func WithTrace(out io.WriteCloser) Option {
 	return func(r *resourceManager) error {
-		r.trace = &trace{path: path}
+		r.trace = &trace{out: out}
 		return nil
 	}
 }
@@ -288,12 +287,7 @@ func (t *trace) Start(limits Limiter) error {
 	t.ctx, t.cancel = context.WithCancel(context.Background())
 	t.closed = make(chan struct{})
 
-	out, err := os.OpenFile(t.path, os.O_CREATE|os.O_WRONLY|os.O_TRUNC, 0644)
-	if err != nil {
-		return nil
-	}
-
-	go t.background(out)
+	go t.background(t.out)
 
 	t.push(TraceEvt{
 		Type:  traceStartEvt,
